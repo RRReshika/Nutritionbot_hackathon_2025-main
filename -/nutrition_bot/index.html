@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VRM Chat - Nutrition Bot</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Three.js and VRM libraries -->
+    <script src="https://unpkg.com/three@0.164.1/build/three.min.js"></script>
+    <script src="https://unpkg.com/three@0.164.1/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://unpkg.com/three@0.164.1/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://unpkg.com/@pixiv/three-vrm@2.1.3/lib/three-vrm.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="background-shapes">
+            <div class="ring ring-1"></div>
+            <div class="ring ring-2"></div>
+            <div class="ring ring-3"></div>
+            <div class="cube cube-1"></div>
+            <div class="cube cube-2"></div>
+        </div>
+        
+        <header class="header">
+            <h1 class="title">Nutrition Bot</h1>
+            <p class="subtitle">Debunking nutrition myths with science</p>
+        </header>
+
+        <main class="main-content">
+            <div class="panels-container">
+                <div class="glass-panel panel-left">
+                    <div class="panel-header">
+                        <h2>VRM Avatar</h2>
+                    </div>
+                    <div class="vrm-container" id="vrmContainer">
+                        <canvas id="vrmCanvas" style="width: 100%; height: 100%; border-radius: 15px;"></canvas>
+                        <div class="vrm-loading" id="vrmLoading">
+                            <p>Loading VRM Avatar...</p>
+                            <div class="upload-hint">
+                                <span>Please wait...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel panel-right">
+                    <div class="panel-header">
+                        <h2>Nutrition Chat</h2>
+                    </div>
+                    <div class="chat-content">
+                        <div class="chat-messages" id="chatMessages">
+                            <div class="welcome-message">
+                                <p>Welcome! I'm here to help you separate nutrition facts from fiction. Ask me about any food or nutrition myth!</p>
+                            </div>
+                        </div>
+                        <div class="chat-input-container">
+                            <input type="text" id="chatInput" placeholder="Type your question..." class="futuristic-input">
+                            <button id="sendMessage" class="neon-button">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,905 @@
+/* ==================== PIXEL ARCADE CHAT THEME - SPACE RETRO ==================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Share+Tech+Mono&family=Inter:wght@400;500;600&family=Space+Grotesk:wght@400;500;600&display=swap');
+
+:root {
+  /* Dark Mode Pixel RPG Theme */
+  --rpg-bg: #121212;
+  --rpg-card-bg: #1a1a1a;
+  --rpg-card-border: #ff4fa7;
+  --rpg-card-inner: #ff4fa7;
+  --rpg-input-bg: #1a1a1a;
+  --rpg-input-border: #ff4fa7;
+  --rpg-button-bg: #ff4fa7;
+  --rpg-button-text: #0D0D0D;
+  --rpg-text: #ffffff;
+  --rpg-text-header: #ffd9ff;
+  --rpg-text-secondary: #b794b7;
+  --rpg-pink: #ff4fa7;
+  --rpg-shadow: rgba(255, 79, 167, 0.3);
+  --rpg-glow: rgba(255, 79, 167, 0.5);
+
+  /* Apply Dark Mode Theme */
+  --bg-primary: var(--rpg-bg);
+  --card-bg: var(--rpg-card-bg);
+  --card-border: var(--rpg-card-border);
+  --card-inner-border: var(--rpg-card-inner);
+  --input-bg: var(--rpg-input-bg);
+  --input-border: var(--rpg-input-border);
+  --button-bg: var(--rpg-button-bg);
+  --text-color: var(--rpg-text);
+  --text-secondary: var(--rpg-text-secondary);
+}
+
+/* ==================== LAYERED CHAT CONTAINER ==================== */
+
+.layered-chat-container {
+  position: relative;
+  width: 100%;
+  height: 600px;
+  background: transparent;
+  background-size: 100% 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: none;
+  box-shadow: none;
+  image-rendering: pixelated;
+  animation: none;
+}
+
+/* Pixel border shimmer animation */
+@keyframes borderShimmer {
+  0%, 100% {
+    box-shadow: 
+      0 0 20px rgba(255, 79, 167, 0.4),
+      0 0 40px rgba(255, 79, 167, 0.2),
+      inset 0 0 60px rgba(0, 0, 0, 0.5);
+  }
+  50% {
+    box-shadow: 
+      0 0 30px rgba(255, 79, 167, 0.6),
+      0 0 50px rgba(255, 79, 167, 0.3),
+      inset 0 0 60px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* Floating pixel stars background */
+.layered-chat-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(2px 2px at 15% 20%, rgba(255, 79, 169, 0.4), transparent),
+    radial-gradient(2px 2px at 85% 30%, rgba(255, 79, 169, 0.3), transparent),
+    radial-gradient(2px 2px at 40% 50%, rgba(255, 79, 169, 0.4), transparent),
+    radial-gradient(2px 2px at 70% 75%, rgba(255, 79, 169, 0.3), transparent),
+    radial-gradient(2px 2px at 20% 80%, rgba(255, 79, 169, 0.4), transparent),
+    radial-gradient(2px 2px at 90% 65%, rgba(255, 79, 169, 0.3), transparent),
+    radial-gradient(2px 2px at 50% 10%, rgba(255, 79, 169, 0.4), transparent),
+    radial-gradient(2px 2px at 30% 60%, rgba(255, 79, 169, 0.3), transparent),
+    radial-gradient(2px 2px at 75% 40%, rgba(255, 79, 169, 0.4), transparent),
+    radial-gradient(2px 2px at 10% 90%, rgba(255, 79, 169, 0.3), transparent);
+  background-size: 100% 100%;
+  pointer-events: none;
+  z-index: 0;
+  animation: starFloat 20s ease-in-out infinite;
+}
+
+@keyframes starFloat {
+  0%, 100% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 0.5;
+    transform: translateY(-10px);
+  }
+}
+
+/* Decorative pixel stars in corners */
+.layered-chat-container::before,
+.layered-chat-container::after {
+  content: '⭐';
+  position: absolute;
+  font-size: 14px;
+  opacity: 0.4;
+  filter: drop-shadow(0 0 8px rgba(255, 79, 167, 0.8));
+  z-index: 10;
+}
+
+.layered-chat-container::before {
+  top: 12px;
+  left: 12px;
+  animation: starTwinkle 3s infinite ease-in-out;
+}
+
+.layered-chat-container::after {
+  bottom: 12px;
+  right: 12px;
+  animation: starTwinkle 3s infinite ease-in-out 1.5s;
+}
+
+@keyframes starTwinkle {
+  0%, 100% { 
+    opacity: 0.3; 
+    transform: scale(1); 
+    filter: drop-shadow(0 0 6px rgba(255, 79, 167, 0.6));
+  }
+  50% { 
+    opacity: 0.6; 
+    transform: scale(1.15); 
+    filter: drop-shadow(0 0 12px rgba(255, 79, 167, 1));
+  }
+}
+
+.cards-viewport {
+  position: relative;
+  flex: 1;
+  padding: 2rem 1rem 1rem 1rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.5rem;
+  perspective: 1200px;
+  transform-style: preserve-3d;
+  scroll-behavior: smooth;
+  padding-bottom: 2rem;
+  z-index: 1;
+}
+
+.cards-viewport::-webkit-scrollbar {
+  width: 10px;
+}
+
+.cards-viewport::-webkit-scrollbar-track {
+  background: rgba(255, 79, 167, 0.1);
+  border-radius: 8px;
+}
+
+.cards-viewport::-webkit-scrollbar-thumb {
+  background: var(--rpg-pink);
+  border-radius: 8px;
+  border: 2px solid #000;
+  box-shadow: 0 0 8px rgba(255, 79, 167, 0.5);
+}
+
+.cards-viewport::-webkit-scrollbar-thumb:hover {
+  background: #ff6bc0;
+  box-shadow: 0 0 12px rgba(255, 79, 167, 0.8);
+}
+
+.theme-medical .cards-viewport::-webkit-scrollbar-track {
+  background: rgba(0, 122, 204, 0.1);
+}
+
+.theme-medical .cards-viewport::-webkit-scrollbar-thumb {
+  background: rgba(0, 122, 204, 0.4);
+}
+
+.theme-medical .cards-viewport::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 122, 204, 0.6);
+}
+
+/* ==================== STACKED PIXEL CARD STYLE ==================== */
+
+/* Pop-in animation */
+@keyframes pop {
+  0% { 
+    transform: scale(0.7) translateY(20px); 
+    opacity: 0; 
+  }
+  100% { 
+    transform: scale(1) translateY(0); 
+    opacity: 1; 
+  }
+}
+
+/* Card wrapper container - Overlapping stacked style */
+.chat-card-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  margin-bottom: 1rem;
+  padding: 0 1rem;
+  animation: pop 0.4s ease-out;
+}
+
+.user-wrapper {
+  justify-content: flex-end;
+}
+
+.bot-wrapper {
+  justify-content: flex-start;
+}
+
+/* Layer system for stacked cards */
+.pixel-card-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  pointer-events: none;
+}
+
+/* Layer 1: Bottom shadow (darkest) */
+.layer-shadow {
+  display: none;
+}
+
+/* Layer 2: Middle border (faint outline) */
+.layer-border {
+  display: none;
+}
+
+/* Layer 3: Main card (top) */
+.pixel-card-main {
+  position: relative;
+  z-index: 3;
+  transform: translate(0, 0);
+  transition: transform 0.2s ease;
+}
+
+/* ==================== CHAT CARDS ==================== */
+
+.chat-card {
+  position: relative;
+  width: auto;
+  max-width: 65%;
+  min-width: 80px;
+  padding: 12px 16px;
+  margin-bottom: 0;
+  background: var(--card-bg);
+  border: 4px solid transparent;
+  background-image: 
+    linear-gradient(var(--card-bg), var(--card-bg)),
+    linear-gradient(135deg, #C084FC, #EC4899, #C084FC);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  border-radius: 12px;
+  box-shadow: 
+    0 0 15px rgba(192, 132, 252, 0.4),
+    0 4px 8px rgba(0, 0, 0, 0.6),
+    inset 0 0 0 1px rgba(192, 132, 252, 0.3);
+  cursor: pointer;
+  min-height: fit-content;
+  overflow: visible;
+  font-family: 'VT323', monospace;
+  image-rendering: pixelated;
+  display: inline-block;
+  word-break: break-word;
+  white-space: normal;
+}
+
+.chat-card:first-child {
+  margin-top: 0;
+}
+
+.chat-card:last-child {
+  margin-bottom: 0;
+}
+
+.card-content {
+  position: relative;
+  z-index: 2;
+  color: #ffffff;
+  font-size: 1rem;
+  line-height: 1.6;
+  width: auto;
+  max-width: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: normal;
+  white-space: normal;
+  font-family: 'Inter', 'Space Grotesk', -apple-system, sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.card-content p {
+  margin: 0;
+  word-break: normal;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+.card-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  pointer-events: none;
+  opacity: 0.6;
+  transition: opacity 0.4s ease;
+}
+
+.user-card {
+  background: rgba(192, 132, 252, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 3px solid transparent;
+  background-image: 
+    linear-gradient(rgba(192, 132, 252, 0.08), rgba(192, 132, 252, 0.08)),
+    linear-gradient(135deg, #C084FC, #EC4899);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+}
+
+.user-card .user-glow {
+  box-shadow: none;
+}
+
+.bot-card {
+  background: rgba(192, 132, 252, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 3px solid transparent;
+  background-image: 
+    linear-gradient(rgba(192, 132, 252, 0.08), rgba(192, 132, 252, 0.08)),
+    linear-gradient(135deg, #C084FC, #EC4899);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+}
+
+.bot-card .bot-glow {
+  box-shadow: none;
+}
+
+.chat-card:hover .card-glow {
+  opacity: 0.9;
+}
+
+/* ==================== CHAT INPUT ==================== */
+
+.chat-input-wrapper {
+  position: relative;
+  width: 100%;
+  padding: 1.5rem;
+  background: #121212;
+  background-size: 100% 100%;
+  box-shadow: 0 -2px 15px rgba(255, 79, 167, 0.3);
+}
+
+.chat-input-container {
+  display: flex;
+  width: 100%;
+  gap: 0.75rem;
+  align-items: center;
+  background: rgba(236, 72, 153, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 3px solid #EC4899;
+  border-radius: 16px;
+  padding: 0.5rem;
+  transition: all 200ms ease;
+  box-shadow: 
+    0 0 15px rgba(236, 72, 153, 0.3),
+    0 0 30px rgba(236, 72, 153, 0.2),
+    0 4px 8px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.chat-input-container:focus-within {
+  border-color: #EC4899;
+  box-shadow: 
+    0 0 20px rgba(236, 72, 153, 0.4),
+    0 0 35px rgba(236, 72, 153, 0.25),
+    0 6px 12px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.glass-input {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 0.75rem 1rem;
+  color: #ffffff;
+  font-size: 1rem;
+  font-family: 'Inter', 'Space Grotesk', -apple-system, sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.glass-input::placeholder {
+  color: var(--rpg-text-secondary);
+  font-family: 'Inter', 'Space Grotesk', -apple-system, sans-serif;
+  font-weight: 400;
+}
+
+.send-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: rgba(192, 132, 252, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 3px solid transparent;
+  background-image: 
+    linear-gradient(rgba(192, 132, 252, 0.15), rgba(192, 132, 252, 0.15)),
+    linear-gradient(135deg, #C084FC, #EC4899, #C084FC);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  border-radius: 10px;
+  padding: 0.4rem 0.75rem;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 200ms ease;
+  box-shadow: 
+    0 0 20px rgba(192, 132, 252, 0.3),
+    0 4px 12px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  font-family: 'Press Start 2P', monospace;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.send-button:hover {
+  background-image: 
+    linear-gradient(rgba(192, 132, 252, 0.25), rgba(192, 132, 252, 0.25)),
+    linear-gradient(135deg, #C084FC, #EC4899, #A855F7, #EC4899, #C084FC);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 
+    0 0 30px rgba(192, 132, 252, 0.5),
+    0 6px 16px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.send-button:active {
+  transform: translateY(0);
+  box-shadow: 
+    0 0 20px rgba(192, 132, 252, 0.4),
+    0 2px 8px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.send-button svg {
+  width: 16px;
+  height: 16px;
+}
+
+.theme-medical .send-button {
+  color: #ffffff;
+}
+
+/* ==================== RESPONSIVE ==================== */
+
+@media (max-width: 768px) {
+  .layered-chat-container {
+    height: 500px;
+  }
+
+  .chat-card {
+    width: 90%;
+    padding: 1.25rem;
+  }
+
+  .cards-viewport {
+    padding: 1.5rem 1rem 0.75rem 1rem;
+  }
+
+  .chat-input-wrapper {
+    padding: 1rem;
+  }
+
+  .glass-input {
+    font-size: 0.9rem;
+  }
+
+  .send-button {
+    padding: 0.65rem 1.25rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* ==================== PIXEL RPG ENHANCEMENTS ==================== */
+
+/* Floating pixel animations - Enhanced Dark Mode */
+.pixel-float-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.pixel-float {
+  position: absolute;
+  font-size: 10px;
+  opacity: 0.25;
+  animation: floatUp 8s infinite ease-in-out;
+  filter: drop-shadow(0 0 4px rgba(255, 79, 167, 0.8));
+  color: #ff4fa7;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(100vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.25;
+  }
+  90% {
+    opacity: 0.25;
+  }
+  100% {
+    transform: translateY(-20vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* RPG Bubble styling - Dark Mode */
+.rpg-bubble {
+  position: relative;
+  background: var(--rpg-card-bg);
+  border: 4px solid var(--rpg-card-border);
+  border-radius: 12px;
+  padding: 1.2rem;
+  box-shadow: 
+    0 0 15px rgba(255, 79, 167, 0.3),
+    0 4px 8px rgba(0, 0, 0, 0.5),
+    inset 0 0 0 1px rgba(255, 79, 167, 0.2);
+  animation: bubbleEnter 0.5s ease-out;
+  image-rendering: pixelated;
+}
+
+@keyframes bubbleEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(15px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Pixel corner ornaments - Bright glow */
+.pixel-corner {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: #ff4fa9;
+  opacity: 0.6;
+  filter: drop-shadow(0 0 4px rgba(255, 79, 169, 0.8));
+}
+
+.pixel-corner-tl {
+  top: -2px;
+  left: -2px;
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+
+.pixel-corner-tr {
+  top: -2px;
+  right: -2px;
+  clip-path: polygon(100% 0, 100% 100%, 0 0);
+}
+
+.pixel-corner-bl {
+  bottom: -2px;
+  left: -2px;
+  clip-path: polygon(0 0, 0 100%, 100% 100%);
+}
+
+.pixel-corner-br {
+  bottom: -2px;
+  right: -2px;
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+
+/* Typing dots animation - Pixel style with glow */
+.typing-dots {
+  display: inline-block;
+  margin-left: 4px;
+  animation: typingBlink 1s infinite;
+  color: #ff4fa7;
+  filter: drop-shadow(0 0 4px rgba(255, 79, 167, 0.8));
+  font-size: 1.2em;
+}
+
+@keyframes typingBlink {
+  0%, 100% { 
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 0.3;
+    transform: scale(0.9);
+  }
+}
+
+/* RPG Input box styling - Dark Mode */
+.rpg-input-box {
+  position: relative;
+  background: var(--rpg-input-bg);
+  border: 4px solid var(--rpg-input-border);
+  border-radius: 12px;
+  padding: 0.5rem;
+  box-shadow: 
+    0 0 15px rgba(255, 79, 167, 0.4),
+    0 4px 8px rgba(0, 0, 0, 0.5),
+    inset 0 0 0 1px rgba(255, 79, 167, 0.2);
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.rpg-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 0.75rem 1rem;
+  color: var(--rpg-text);
+  font-size: 1.1rem;
+  font-family: 'VT323', monospace;
+  letter-spacing: 0.5px;
+}
+
+.rpg-input::placeholder {
+  color: var(--rpg-text-secondary);
+}
+
+/* RPG Send button with pixel arrow */
+.rpg-send-button {
+  background: var(--rpg-button-bg);
+  border: 4px solid var(--rpg-pink);
+  border-radius: 10px;
+  padding: 0.75rem 1.2rem;
+  color: var(--rpg-button-text);
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 
+    0 4px 0 0 rgba(217, 56, 122, 0.4),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+  font-family: 'Press Start 2P', monospace;
+  letter-spacing: 1px;
+  image-rendering: pixelated;
+  position: relative;
+}
+
+.rpg-send-button:hover {
+  background: #ffc4e3;
+  transform: translateY(-2px);
+  box-shadow: 
+    0 6px 0 0 rgba(217, 56, 122, 0.4),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.7);
+}
+
+.rpg-send-button:active {
+  transform: translateY(1px);
+  box-shadow: 
+    0 2px 0 0 rgba(217, 56, 122, 0.4),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+.pixel-arrow {
+  font-size: 0.9rem;
+  display: inline-block;
+  filter: drop-shadow(0 0 2px rgba(0, 13, 13, 0.8));
+}
+
+/* Welcome message special styling - Dark Mode */
+.welcome-card-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.welcome-sparkle {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 20px;
+  filter: drop-shadow(0 0 10px rgba(255, 79, 167, 1));
+  animation: welcomeSparkle 2s infinite ease-in-out;
+  z-index: 100;
+  color: #ff4fa7;
+}
+
+@keyframes welcomeSparkle {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0) rotate(0deg);
+    opacity: 0.9;
+    filter: drop-shadow(0 0 8px rgba(255, 79, 167, 0.8));
+  }
+  50% {
+    transform: translateX(-50%) translateY(-5px) rotate(12deg);
+    opacity: 1;
+    filter: drop-shadow(0 0 15px rgba(255, 79, 167, 1));
+  }
+}
+
+.welcome-message {
+  background: linear-gradient(135deg, #1f1f1f 0%, #1a1a1a 100%);
+  border: 4px solid var(--rpg-pink);
+  margin-bottom: 1.5rem;
+  position: relative;
+  box-shadow: 
+    0 0 20px rgba(255, 79, 167, 0.4),
+    inset 0 0 0 1px rgba(255, 79, 167, 0.2);
+}
+
+.welcome-message::before {
+  content: '✨';
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 16px;
+  filter: drop-shadow(0 0 8px rgba(255, 79, 167, 0.8));
+  color: #ff4fa7;
+}
+
+/* ==================== ANIMATIONS ==================== */
+
+@keyframes cardEnter {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes cardHover {
+  to {
+    transform: translateY(-6px);
+  }
+}
+
+/* Medical Theme Overrides */
+.theme-medical .layered-chat-container {
+  box-shadow: inset 0 0 60px rgba(0, 122, 204, 0.08),
+              0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.theme-medical .user-card {
+  border-left: 3px solid rgba(0, 122, 204, 0.6);
+}
+
+.theme-medical .bot-card {
+  border-left: 3px solid rgba(100, 100, 255, 0.5);
+}
+
+.theme-medical .send-button:hover {
+  box-shadow: 0 4px 12px rgba(0, 122, 204, 0.3);
+}
+
+/* ==================== THEME TOGGLE ==================== */
+
+.theme-toggle-container {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  justify-content: center;
+}
+
+.theme-toggle-container .theme-btn {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 0.6rem 1.2rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.theme-toggle-container .theme-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #ffffff;
+}
+
+.theme-toggle-container .theme-btn.active {
+  background: linear-gradient(135deg, rgba(0, 255, 255, 0.3), rgba(255, 0, 255, 0.3));
+  border-color: rgba(0, 255, 255, 0.6);
+  color: #00ffff;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+}
+
+.theme-medical .theme-toggle-container .theme-btn {
+  color: rgba(26, 26, 46, 0.7);
+  background: rgba(255, 255, 255, 0.5);
+  border-color: rgba(0, 122, 204, 0.3);
+}
+
+.theme-medical .theme-toggle-container .theme-btn:hover {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(0, 122, 204, 0.5);
+  color: #007acc;
+}
+
+.theme-medical .theme-toggle-container .theme-btn.active {
+  background: rgba(0, 122, 204, 0.2);
+  border-color: #007acc;
+  color: #007acc;
+  box-shadow: 0 2px 8px rgba(0, 122, 204, 0.2);
+}
+
+/* ==================== CHAT OPTION BUTTONS ==================== */
+
+.chat-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(168, 85, 247, 0.2);
+}
+
+.chat-option-button {
+  background: linear-gradient(135deg, #C084FC 0%, #A855F7 100%);
+  border: 2px solid #C084FC;
+  border-radius: 12px;
+  padding: 0.75rem 1.5rem;
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 15px rgba(192, 132, 252, 0.3),
+              0 0 30px rgba(168, 85, 247, 0.2);
+  text-align: center;
+  flex: 1 1 auto;
+  min-width: 150px;
+}
+
+.chat-option-button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #A855F7 0%, #9333EA 100%);
+  border-color: #A855F7;
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px rgba(192, 132, 252, 0.5),
+              0 0 40px rgba(168, 85, 247, 0.3),
+              0 4px 15px rgba(168, 85, 247, 0.4);
+}
+
+.chat-option-button:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 0 10px rgba(192, 132, 252, 0.4);
+}
+
+.chat-option-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: linear-gradient(135deg, #9CA3AF 0%, #6B7280 100%);
+  border-color: #9CA3AF;
+  box-shadow: none;
+}
+
